@@ -1,0 +1,121 @@
+apps: 
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-1"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-1
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-2"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-2
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-3"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-3
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-4"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-4
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-5"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-5
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-6"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-6
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-7"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-7
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-8"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-8
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-9"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-9
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-10"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-10
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: default-queue-worker
+    script: "./artisan"
