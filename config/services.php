@@ -36,10 +36,10 @@ return [
     ],
 
     'google' => [
-        'client_id' => "304788591171-08nhqe04mne6tk2kurl08cpeqlgfk69n.apps.googleusercontent.com",
-        'client_secret' => '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',
-        'redirect' => '/auth/callback',
-        'folder_id' => '1HAMP4Io_AP9kbx4LJZDUCxLTkVcXQSMR',
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
+        'folder_id' => env('GOOGLE_FOLDER_ID'),
         'json_path' => storage_path('app/service_account.json')
     ]
 ];
