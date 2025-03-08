@@ -22,22 +22,10 @@ function email()
 
 function findQueue():string
 {
-    $queues = DB::table('jobs')->where('queue', 'like', 'queue-worker-%')->select(['queue as name', DB::raw('COUNT(*) as jobs')])->groupBy('name')->orderBy('jobs')->get();
-
-    $queues_count = $queues->count();
-
-    if($queues_count == 10){
-        return $queues->first()->name;
-    }
+    $queue = DB::table('jobs')->select(['queue as name', DB::raw('COUNT(*) as jobs')])->groupBy('name')->orderBy('jobs')->first();
     
-    $queues = $queues->pluck('name')->all();
-
-    for ($key=1; $key<=10; $key++) {
-       $queue = "queue-worker-{$key}";
-
-       if(!in_array($queue, $queues)){
-            return $queue;
-       }
+    if($queue?->name != 'queue-worker-1'){
+        return 'queue-worker-1';
     }
 
     return 'default';

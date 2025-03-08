@@ -129,14 +129,16 @@ export default class IndexPage extends React.Component {
             deleting_id: venue_id,
         });
 
-        await axios
+        try {
+            await axios
             .delete(`/api/v1/venues/${venue_id}`, {
                 headers: {
                     Accept: 'application/json',
                     Authorization: `Bearer ${this.props.api_token}`
                 }
             })
-            .then(() => {
+            .then((resp) => {
+                console.log(resp.data);
                 venues = venues.data.filter((pred) => pred.id !== venue_id);
 
                 this.setState({
@@ -156,6 +158,7 @@ export default class IndexPage extends React.Component {
                 });
             })
             .catch((error) => {
+                console.log(error?.response)
                 this.setState({
                     showConfirmModal: false,
                     openableVenue: null,
@@ -163,6 +166,10 @@ export default class IndexPage extends React.Component {
                     deleting_id: null,
                 });
             });
+        } catch (error) {
+            console.log(error)
+        }
+        
     };
 
     handleChange = ({ name, value }) => {
@@ -249,7 +256,7 @@ export default class IndexPage extends React.Component {
                                 onClick={() =>
                                     this.setState({ showVenueModal: true })
                                 }
-                                className="btn btn-square btn-sm w-24 p-2 borer border-gray-200"
+                                className="btn btn-square btn-sm w-28 p-2 border border-gray-200"
                             >
                                 New Venue
                             </button>

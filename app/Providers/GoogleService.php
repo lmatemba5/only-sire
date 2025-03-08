@@ -237,7 +237,7 @@ class GoogleService
         if (!app()->environment('local')) {
             $requests[] = new GoogleRequest([
                 'insertInlineImage' => [
-                    'uri' => $this->candidate->bucket->getMedia('ph')->first()->getUrl('thumb'),
+                    'uri' =>$this->candidate->bucket->getMedia('id')->first()->getUrl('thumb'),
                     'location' => [
                         'index' => 53,
                     ],

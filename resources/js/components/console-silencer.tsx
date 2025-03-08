@@ -1,7 +1,7 @@
 
 const consoleSilencer = () => {
     Object.keys(console).forEach(function (key) {
-        console[key] = function () {}
+        //console[key] = function () {}
     });
 }
 

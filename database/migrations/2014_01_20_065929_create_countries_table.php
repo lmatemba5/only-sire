@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('google_drive_id')->nullable();
             $table->string('google_settings_id')->nullable();
-            $table->foreignId('continent_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('continent_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -39,7 +39,7 @@ class SaveDocumentManager extends QueueJob
                 SaveDocument::dispatch(
                     $bucket,
                     $target_google_drive_id,
-                    $media
+                    $media->id
                 )->onQueue($this->queue);
             }
         }

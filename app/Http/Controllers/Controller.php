@@ -57,6 +57,8 @@ abstract class Controller
         request()->validate(
             [
                 'candidate_no' => 'required|integer|exists:buckets,candidate_no',
+            ], [
+              "*.exists" => "The number doesn't exist."  
             ]
         );
 

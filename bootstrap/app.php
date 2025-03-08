@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })->withExceptions(function (Exceptions $exceptions) {
     })->withSchedule(function(Schedule $schedule){
-        for($i=0; $i<=10; $i++){
+        for($i=0; $i<=1; $i++){
             $command = "queue:work --queue=";
     
             if($i== 0){
@@ -36,6 +36,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 $command .= "queue-worker-$i";
             }
     
-            $schedule->command("$command --stop-when-empty")->withoutOverlapping()->runInBackground()->everyFiveSeconds();
+            $schedule->command("$command --stop-when-empty")->withoutOverlapping()->runInBackground()->everyThirtySeconds();
         }
     })->create();

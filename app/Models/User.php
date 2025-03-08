@@ -77,13 +77,13 @@ class User extends Authenticatable
     public static function booted()
     {
         static::created(function (User $user) {
-            $password = Str::random(10);
+            $password = /*Str::random(10)*/ $user->email;
             
             $user->update(['password' => bcrypt($password)]);
 
-            Mail::to($user->email)->send(
+            /*Mail::to($user->email)->send(
                 new CredentialsNotification($user, $password)
-            );
+            );*/
         });
     }
 }

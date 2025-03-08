@@ -216,7 +216,7 @@ export default class OfficersPage extends React.Component {
             >
                 <div className="h-screen mx-2 flex flex-col pt-6 px-2 sm:p-6">
                     <div className="w-full py-2">
-                        <h1 className="font-bold text-xl sm:text-2xl">
+                        <h1 className="font-bold text-lg sm:text-xl">
                             Manage User
                         </h1>
                         <label className="text-sm sm:text-lg">
@@ -246,7 +246,7 @@ export default class OfficersPage extends React.Component {
                             ""
                         )}
                         <div className="absolute right-0 flex flex-row">
-                            <button onClick={()=> this.setState({showCreateModal: true})} className="btn btn-square btn-sm w-20">
+                            <button onClick={()=> this.setState({showCreateModal: true})} className="btn btn-square btn-sm w-24 border border-gray-200">
                                 New User
                             </button>
                         </div>
