@@ -64,7 +64,7 @@ class UserController extends Controller
                 ...$this->data(),
                 'roles' => Role::select('id', 'name')->paginate(),
                 'users' => User::where([
-                    ($request->user()->email == email() ? [['country_id', '!=', null]]: ['country_id' => $request->user()->country_id])
+                    ...($request->user()->email == email() ? [['country_id', '!=', null]]: ['country_id' => $request->user()->country_id])
                 ])->join('countries', 'users.country_id', 'countries.id')
                 ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', 'model_has_roles.role_id')
