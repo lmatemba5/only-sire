@@ -22,9 +22,9 @@ function email()
 
 function findQueue():string
 {
-    $queue = DB::table('jobs')->select(['queue as name', DB::raw('COUNT(*) as jobs')])->groupBy('name')->orderBy('jobs')->first();
+    $queue = DB::table('jobs')->select(['queue as name', DB::raw('COUNT(*) as jobs')])->groupBy('name')->orderBy('jobs', 'desc')->first();
     
-    if($queue?->name != 'queue-worker-1'){
+    if($queue && $queue->name == 'default'){
         return 'queue-worker-1';
     }
 
