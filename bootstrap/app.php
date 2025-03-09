@@ -36,6 +36,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 $command .= "queue-worker-$i";
             }
     
-            $schedule->command("$command --stop-when-empty")->withoutOverlapping()->runInBackground()->everyThirtySeconds();
+            $schedule->command("$command --sleep=3 --tries=3 --stop-when-empty")->withoutOverlapping()->runInBackground()->everyTenSeconds();
         }
     })->create();
