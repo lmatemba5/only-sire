@@ -12,11 +12,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Mail\CredentialsNotification;
 use App\Models\Team;
-use Illuminate\Support\{Str, Facades\Mail};
+use App\Providers\GoogleService;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    protected $gmailService;
+
+    public function __construct(array $attributes = [])
+    {
+        $this->gmailService = new GoogleService();
+        parent::__construct($attributes);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -81,9 +89,9 @@ class User extends Authenticatable
             
             $user->update(['password' => bcrypt($password)]);
 
-            /*Mail::to($user->email)->send(
-                new CredentialsNotification($user, $password)
-            );*/
+            /*$email = new CredentialsNotification($user, $password);
+
+            $user->gmailService->sendEmail($user->email, 'Interview System Login Details',  $email->render());*/
         });
     }
 }

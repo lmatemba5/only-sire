@@ -14,6 +14,8 @@ use Google\Service\Docs\Request as GoogleRequest;
 use Google\Service\Drive;
 use Google\Service\Drive\DriveFile;
 use Google\Service\Exception;
+use Google\Service\Gmail;
+use Google\Service\Gmail\Message;
 use Google\Service\Sheets;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
 use Google\Service\Sheets\BooleanCondition;
@@ -46,12 +48,19 @@ class GoogleService
             Sheets::SPREADSHEETS,
             Docs::DOCUMENTS,
             Drive::DRIVE,
+            Gmail::GMAIL_SEND
         ]);
     }
 
     public function getSheetsService()
     {
         return new Sheets($this->client);
+    }
+
+    public function getGmail()
+    {
+        $this->client->setSubject(email());
+        return new Gmail($this->client);
     }
 
     public function getDriveService()
@@ -63,6 +72,7 @@ class GoogleService
     {
         return new Docs($this->client);
     }
+
 
     private function candidate_details($creatorName)
     {
@@ -86,6 +96,22 @@ class GoogleService
         ]);
 
         return $cd;
+    }
+
+    public function sendEmail($to, $subject, $body)
+    {
+        $message = new Message();
+        $rawMessageString = "From: ".email()."\r\n";
+        $rawMessageString .= "To: $to\r\n";
+        $rawMessageString .= "Subject: $subject\r\n";
+        $rawMessageString .= "MIME-Version: 1.0\r\n";
+        $rawMessageString .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
+        $rawMessageString .= $body;
+
+        $encodedMessage = base64_encode($rawMessageString);
+        $message->setRaw(str_replace(['+', '/', '='], ['-', '_', ''], $encodedMessage));
+
+        $this->getGmail()->users_messages->send('me', $message);
     }
 
     private function addition_question_details()
