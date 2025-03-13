@@ -11,7 +11,6 @@ import VenueDetails from "@/pages/country-admin/venues/view-details";
 import { X, ExternalLink, Trash2, Settings } from "lucide-react";
 import consoleSilencer from "@/components/console-silencer";
 
-
 export default class IndexPage extends React.Component {
     constructor(props) {
         super(props);
@@ -89,9 +88,9 @@ export default class IndexPage extends React.Component {
         await axios
             .post("/api/v1/venues", form_data, {
                 headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.props.api_token}`
-                }
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.props.api_token}`,
+                },
             })
             .then((response) => {
                 const data = [...this.state.venues.data, response.data.data];
@@ -131,45 +130,44 @@ export default class IndexPage extends React.Component {
 
         try {
             await axios
-            .delete(`/api/v1/venues/${venue_id}`, {
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.props.api_token}`
-                }
-            })
-            .then((resp) => {
-                console.log(resp.data);
-                venues = venues.data.filter((pred) => pred.id !== venue_id);
-
-                this.setState({
-                    venues: {
-                        data: venues,
+                .delete(`/api/v1/venues/${venue_id}`, {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `Bearer ${this.props.api_token}`,
                     },
-                    data: venues,
-                    showConfirmModal: false,
-                    openableVenue: null,
-                    selectedVenue: null,
-                    deleting_id: null,
-                });
+                })
+                .then((resp) => {
+                    console.log(resp.data);
+                    venues = venues.data.filter((pred) => pred.id !== venue_id);
 
-                this.toastRef.current.show({
-                    type: "success",
-                    msg: "Operation successfully.",
+                    this.setState({
+                        venues: {
+                            data: venues,
+                        },
+                        data: venues,
+                        showConfirmModal: false,
+                        openableVenue: null,
+                        selectedVenue: null,
+                        deleting_id: null,
+                    });
+
+                    this.toastRef.current.show({
+                        type: "success",
+                        msg: "Operation successfully.",
+                    });
+                })
+                .catch((error) => {
+                    console.log(error?.response);
+                    this.setState({
+                        showConfirmModal: false,
+                        openableVenue: null,
+                        selectedVenue: null,
+                        deleting_id: null,
+                    });
                 });
-            })
-            .catch((error) => {
-                console.log(error?.response)
-                this.setState({
-                    showConfirmModal: false,
-                    openableVenue: null,
-                    selectedVenue: null,
-                    deleting_id: null,
-                });
-            });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-        
     };
 
     handleChange = ({ name, value }) => {
@@ -435,31 +433,36 @@ export default class IndexPage extends React.Component {
                                             />
                                         </div>
 
-                                        {deleting_id == venue.id ? (
-                                            <Spinner
-                                                text={null}
-                                                className="border-solid w-3 h-3"
-                                            />
-                                        ) : (
-                                            <div
-                                                className="tooltip"
-                                                data-tip="Delete Venue"
-                                            >
-                                                <Trash2
-                                                    className="text-red-500 font-extrabold"
-                                                    size={22}
-                                                    onClick={() =>
-                                                        this.setState({
-                                                            openableVenue:
-                                                                venue,
-                                                            showConfirmModal: true,
-                                                            current_page:
-                                                                "venue_list",
-                                                            selectedVenue: null,
-                                                        })
-                                                    }
+                                        {venue.status != "Closed" ? (
+                                            deleting_id == venue.id ? (
+                                                <Spinner
+                                                    text={null}
+                                                    className="border-solid w-3 h-3"
                                                 />
-                                            </div>
+                                            ) : (
+                                                <div
+                                                    className="tooltip"
+                                                    data-tip="Delete Venue"
+                                                >
+                                                    <Trash2
+                                                        className="text-red-500 font-extrabold"
+                                                        size={22}
+                                                        onClick={() =>
+                                                            this.setState({
+                                                                openableVenue:
+                                                                    venue,
+                                                                showConfirmModal: true,
+                                                                current_page:
+                                                                    "venue_list",
+                                                                selectedVenue:
+                                                                    null,
+                                                            })
+                                                        }
+                                                    />
+                                                </div>
+                                            )
+                                        ) : (
+                                            <></>
                                         )}
                                     </div>
                                 )}
@@ -468,7 +471,13 @@ export default class IndexPage extends React.Component {
 
                         <Modal show={this.state.showVenueModal}>
                             <div className="rounded-lg min-h-24 min-w-8 text-center bg-white drop-shadow border">
-                                <div className="rounded-t-lg p-2 border-b flex justify-between items-center" style={{backgroundColor: "#674EA7", color: 'white'}}>
+                                <div
+                                    className="rounded-t-lg p-2 border-b flex justify-between items-center"
+                                    style={{
+                                        backgroundColor: "#674EA7",
+                                        color: "white",
+                                    }}
+                                >
                                     <label>CREATE VENUE</label>
                                     <button
                                         onClick={this.hideModal}
@@ -617,7 +626,7 @@ export default class IndexPage extends React.Component {
     }
 }
 
-consoleSilencer()
+consoleSilencer();
 
 const root = document.querySelector("#index-widget");
 
