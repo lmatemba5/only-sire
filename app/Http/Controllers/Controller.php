@@ -62,7 +62,14 @@ abstract class Controller
             ]
         );
 
-        $bucket = Bucket::where('candidate_no', request()->candidate_no)->first();
+        $bucket = Bucket::where([
+            'candidate_no'=> request()->candidate_no,
+            'venue_id' => request()->user()->venue_id
+            ])->first();
+
+        if (!$bucket) {
+            throw new \Exception("The number doesn't exist.", 404);
+        }
 
         if ($bucket->user_id) {
             throw new \Exception("The number is already taken.", 403);
