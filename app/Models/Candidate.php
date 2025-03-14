@@ -44,4 +44,9 @@ class Candidate extends Model
     {
         return $this->hasOne(Bucket::class);
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
