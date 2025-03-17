@@ -71,7 +71,7 @@ export default class AuthenticatedLayout extends React.Component {
     render() {
         const {auth} = this.props
         return (
-            <div className="card flex justify-content-center font-serif">
+            <div className="card flex justify-content-center font-serif h-screen w-screen">
                 <div className="min-h-screen flex overflow-hidden max-w-screen-2xl">
                     <div className="min-h-screen flex flex-col w-full bg-gray-100 dark:bg-slate-600 overflow-hidden">
                         <header className="w-full flex items-center shadow bg-white dark:bg-slate-600 drop-shadow">
