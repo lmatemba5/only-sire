@@ -85,7 +85,7 @@ class GoogleService
             [145, $this->candidate->district],
             [163, $this->candidate->marital_status],
             [174, $this->candidate->email ?: 'N/A'],
-            [183, now()->format('d F Y')],
+            [183, $this->candidate->venue->created_at->format('d F Y')],
             [196, $this->candidate->facebook_link ?: 'N/A'],
             [209, $this->candidate->instagram_link ?: 'N/A'],
             [222, $this->candidate->linkedin_link ?: 'N/A'],

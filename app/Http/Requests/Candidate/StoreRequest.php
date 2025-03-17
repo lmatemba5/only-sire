@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Candidate;
 
-use App\Models\Candidate;
 use Illuminate\Validation\Rule;
 use App\Jobs\Candidate\CreateGoogleEntry;
 use App\Models\Bucket;
+use App\Rules\Candidate\MustBeValidLink;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
     {
         $tab = $this->tab;
 
-        if($this->conducted_by){
+        if ($this->conducted_by) {
             request()->session()->put('conducted_by', $this->conducted_by);
         }
 
@@ -41,16 +41,16 @@ class StoreRequest extends FormRequest
                     'ta' => 'required|string|max:50',
                     'district' => 'required|string|max:50',
                     'email' => 'nullable|string|email|max:100',
-                    'phone' => 'required|string|max:20',
+                    'phone' => 'required|string|max:50',
                     'gender' => 'required|string|' . Rule::in(['Female', 'Male']),
                 ];
             case 'social_media_links':
                 return [
-                    'facebook_link' => 'nullable|string|max:255',
-                    'instagram_link' => 'nullable|string|max:255',
-                    'linkedin_link' => 'nullable|string|max:255',
-                    'twitter_link' => 'nullable|string|max:255',
-                    'related_to' => 'required|string|max:100',
+                    'facebook_link' => ['nullable', 'string', 'max:500', new MustBeValidLink],
+                    'instagram_link' => ['nullable', 'string', 'max:500', new MustBeValidLink],
+                    'linkedin_link' => ['nullable', 'string', 'max:500', new MustBeValidLink],
+                    'twitter_link' => ['nullable', 'string', 'max:500', new MustBeValidLink],
+                    'related_to' => 'nullable|string|max:100',
                 ];
             case 'interview_checklist':
                 return [
@@ -62,7 +62,7 @@ class StoreRequest extends FormRequest
                 ];
             case 'recommendation':
                 return [
-                    "recommendation" => 'required|string|max:255',
+                    "recommendation" => 'required|string|max:1000',
                     "recommendation_marks" => 'required|string|max:3',
                 ];
             case 'additional_questions':
@@ -73,13 +73,12 @@ class StoreRequest extends FormRequest
                     "prev_org" => 'nullable|string|max:255',
                     "prev_org_objective" => 'nullable|string|max:255',
                     "iera_friends" => 'nullable|string|max:255',
-                    "questions" => 'nullable|string|max:255',
-                    "conducted_by" => 'required|string|max:255'
+                    "questions" => 'nullable|string|max:255'
                 ];
             default:
 
                 return [
-                    "$tab" => 'required|string|max:255',
+                    "$tab" => 'required|string|max:1000',
                     "$tab" . "_marks" => 'required|string|max:3',
                 ];
         }
