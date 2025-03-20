@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->boolean('isLocked')->default(false);  
             $table->foreignId('country_id')->constrained('countries')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('venue_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('venue_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->rememberToken();
             $table->string('api_token')->nullable();
             $table->timestamps();

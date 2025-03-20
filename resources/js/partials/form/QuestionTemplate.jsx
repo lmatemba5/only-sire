@@ -155,6 +155,7 @@ export default function QuestionTemplate({
                                                     question.key + "_marks"
                                                 ]
                                             }
+                                            defaultValue=""
                                             name={question.key + "_marks"}
                                             onChange={(e) =>
                                                 handleChange(e.target)
@@ -167,7 +168,7 @@ export default function QuestionTemplate({
                                                     : ""
                                             }`}
                                         >
-                                            <option selected disabled value="">--</option>
+                                            <option disabled value="">--</option>
                                             {arrayableMarks().map(
                                                 (mark, index) => {
                                                     const value = `${mark}/${maxMark}`;

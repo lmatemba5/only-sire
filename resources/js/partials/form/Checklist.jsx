@@ -24,7 +24,7 @@ export default function CheckList({ handleChange, form_data }) {
                                 <input
                                     type="checkbox"
                                     name={keyedName}
-                                    checked={Number(form_data[keyedName]) != 0}
+                                    checked={Number(form_data[keyedName]) == 1}
                                     className="checkbox checkbox-accent"
                                     onChange={(e) =>
                                         handleChange({

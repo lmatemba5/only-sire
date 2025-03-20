@@ -4,7 +4,7 @@ import AuthenticatedLayout from "@/layouts/AuthenticatedLayout";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Unlock, Lock, X, RotateCw } from "lucide-react";
+import { Unlock, Lock, X, RotateCw, Ellipsis } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 import Modal from "@/components/modal";
@@ -20,9 +20,11 @@ export default class OfficersPage extends React.Component {
             roles: this.props.roles.data,
             locking: null,
             showCreateModal: false,
+            showConfirmModal: false,
+            selectedUser: null,
             role_updating: null,
-            form_data:{},
-            form_errors:{}
+            form_data: {},
+            form_errors: {},
         };
 
         this.toastRef = createRef();
@@ -74,6 +76,9 @@ export default class OfficersPage extends React.Component {
                         data,
                     },
                     data,
+                    showConfirmModal: false,
+                    showCreateModal: false,
+                    selectedUser: null
                 });
 
                 if (role_name == null) {
@@ -91,7 +96,6 @@ export default class OfficersPage extends React.Component {
                 }
             })
             .catch((error) => {
-
                 this.toastRef.current.show({
                     type: "error",
                     title: "There's an error",
@@ -100,7 +104,7 @@ export default class OfficersPage extends React.Component {
 
                 this.setState({
                     locking: null,
-                    role_updating: null,
+                    role_updating: null
                 });
             });
     };
@@ -174,24 +178,26 @@ export default class OfficersPage extends React.Component {
         await axios
             .post(
                 `/api/v1/users`,
-                { ...this.state.form_data}, {
+                { ...this.state.form_data },
+                {
                     headers: {
-                        Accept: 'application/json',
-                        Authorization: `Bearer ${this.props.api_token}`
-                    }
-                })
+                        Accept: "application/json",
+                        Authorization: `Bearer ${this.props.api_token}`,
+                    },
+                }
+            )
             .then((response) => {
-                const data = [...this.state.users.data, response.data.data]
+                const data = [...this.state.users.data, response.data.data];
 
                 this.setState({
                     is_processing: false,
                     form_data: {},
                     form_errors: {},
                     showCreateModal: false,
-                    users:{
-                        data
+                    users: {
+                        data,
                     },
-                    data
+                    data,
                 });
 
                 this.toastRef.current.show({
@@ -217,10 +223,10 @@ export default class OfficersPage extends React.Component {
                 <div className="h-screen mx-2 flex flex-col pt-6 px-2 sm:p-6">
                     <div className="w-full py-2">
                         <h1 className="font-bold text-lg sm:text-xl">
-                            Manage User
+                            Manage Users
                         </h1>
-                        <label className="text-sm sm:text-lg">
-                            Add, lock and unlock users.
+                        <label className="text-xs sm:text-lg">
+                            You can add, lock, unlock and update user role.
                         </label>
                     </div>
                     <div className="py-5 mb-5 relative flex justify-between items-center">
@@ -246,7 +252,12 @@ export default class OfficersPage extends React.Component {
                             ""
                         )}
                         <div className="absolute right-0 flex flex-row">
-                            <button onClick={()=> this.setState({showCreateModal: true})} className="btn btn-square btn-sm w-24 border border-gray-200">
+                            <button
+                                onClick={() =>
+                                    this.setState({ showCreateModal: true })
+                                }
+                                className="btn btn-square btn-sm w-24 border border-gray-200"
+                            >
                                 New User
                             </button>
                         </div>
@@ -351,7 +362,7 @@ export default class OfficersPage extends React.Component {
                                                 role="button"
                                                 className="tooltip flex justify-center items-center btn btn-sm btn-circle border border-gray-200"
                                             >
-                                                <RotateCw className="p-1" />
+                                                <Ellipsis className="p-1" />
                                             </div>
                                             <ul
                                                 tabIndex={0}
@@ -383,32 +394,33 @@ export default class OfficersPage extends React.Component {
                                         </div>
                                     )}
 
-                                    {locking == user.id ? (
-                                        <Spinner
-                                            text={null}
-                                            className="border-solid w-3 h-3"
-                                        />
-                                    ) : user.isLocked == 0 ? (
+                                    {user.isLocked == 0 ? (
                                         <div
                                             className="tooltip"
-                                            data-tip="Deactivate"
+                                            data-tip="Lock"
                                         >
                                             <Lock
                                                 className="text-red-500 font-extrabold"
                                                 onClick={() =>
-                                                    this.updateUser(user)
+                                                    this.setState({
+                                                        selectedUser: user,
+                                                        showConfirmModal: true
+                                                    })
                                                 }
                                             />
                                         </div>
                                     ) : (
                                         <div
                                             className="tooltip"
-                                            data-tip="Activate"
+                                            data-tip="Unlock"
                                         >
                                             <Unlock
                                                 className="text-green-500 font-extrabold"
                                                 onClick={() =>
-                                                    this.updateUser(user)
+                                                    this.setState({
+                                                        selectedUser: user,
+                                                        showConfirmModal: true
+                                                    })
                                                 }
                                             />
                                         </div>
@@ -421,7 +433,13 @@ export default class OfficersPage extends React.Component {
 
                 <Modal show={this.state.showCreateModal}>
                     <div className="rounded-lg min-h-24 min-w-8 text-center bg-white drop-shadow border">
-                        <div className="rounded-t-lg p-2 border-b flex justify-between items-center" style={{backgroundColor: "#674EA7", color: 'white'}}>
+                        <div
+                            className="rounded-t-lg p-2 border-b flex justify-between items-center"
+                            style={{
+                                backgroundColor: "#674EA7",
+                                color: "white",
+                            }}
+                        >
                             <label>CREATE USER</label>
                             <button
                                 onClick={() => {
@@ -469,7 +487,11 @@ export default class OfficersPage extends React.Component {
                                 <label>Role</label>
                                 <select
                                     name="role"
-                                    defaultValue={this.state.form_data.role ? this.state.form_data.role : ""}
+                                    defaultValue={
+                                        this.state.form_data.role
+                                            ? this.state.form_data.role
+                                            : ""
+                                    }
                                     onChange={(e) =>
                                         this.handleChange(e.target)
                                     }
@@ -478,11 +500,16 @@ export default class OfficersPage extends React.Component {
                                     <option value={""} disabled>
                                         --Choose--
                                     </option>
-                                    {
-                                        roles.map((role, index)=>{
-                                            return <option key={index} value={role.name}>{role.name}</option>
-                                        })
-                                    }
+                                    {roles.map((role, index) => {
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={role.name}
+                                            >
+                                                {role.name}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
 
                                 {this.state?.form_errors?.role && (
@@ -504,6 +531,65 @@ export default class OfficersPage extends React.Component {
                                     />
                                 ) : (
                                     "CREATE"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal show={this.state.showConfirmModal}>
+                    <div className="rounded-lg min-h-24 min-w-8 text-center bg-white drop-shadow border">
+                        <div className="rounded-t-lg p-2 bg-gray-100 border-b flex justify-between items-center">
+                            <label>
+                                {this.state?.selectedUser?.isLocked == 1
+                                    ? "Unlock"
+                                    : "Lock"}{" - "}
+                                <b>{this.state?.selectedUser?.name}</b>
+                            </label>
+                            <button
+                                onClick={() => {
+                                    this.setState({
+                                        showConfirmModal: false,
+                                        selectedUser: null
+                                    });
+                                }}
+                                className="btn btn-sm btn-ghost btn-circle"
+                            >
+                                <X size={16} />
+                            </button>
+                        </div>
+                        <div className="h-fit p-4 space-y-1 text-left">
+                            Are you sure to{" "}
+                            <span className={this.state?.selectedUser?.isLocked == 1 ? "text-green-600 font-bold":"text-red-600 font-bold"}>{this.state?.selectedUser?.isLocked == 1
+                                    ? "unlock"
+                                    : "lock"}</span>
+                            {" "}
+                            this user?
+                        </div>
+                        <div className="rounded-b-lg p-2 flex justify-end space-x-4 items-center">
+                            <button
+                                onClick={() => {
+                                    this.setState({
+                                        showConfirmModal: false,
+                                        selectedUser: null
+                                    });
+                                }}
+                                className="p-2 px-3 btn btn-sm bg-gray-100  borer border-gray-200"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() =>
+                                    this.updateUser(this.state?.selectedUser)
+                                }
+                                className="p-2 px-3 btn btn-sm w-16 text-white bg-red-500  border-0"
+                            >
+                                {locking ? (
+                                    <Spinner
+                                        text={null}
+                                        className="border-solid w-3 h-3"
+                                    />
+                                ) : (
+                                    "Yes"
                                 )}
                             </button>
                         </div>

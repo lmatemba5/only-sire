@@ -27,10 +27,6 @@ class StoreRequest extends FormRequest
     {
         $tab = $this->tab;
 
-        if ($this->conducted_by) {
-            request()->session()->put('conducted_by', $this->conducted_by);
-        }
-
         switch ($tab) {
             case 'personal_details':
                 return [
@@ -65,9 +61,12 @@ class StoreRequest extends FormRequest
                     "recommendation" => 'required|string|max:1000',
                     "recommendation_marks" => 'required|string|max:3',
                 ];
+            
+            case "submit":
+                return [];
             case 'additional_questions':
                 return [
-                    "previous_job" => 'nullable|string|max:255',
+                    "prev_job" => 'nullable|string|max:255',
                     "when_to_start" => 'nullable|string|max:255',
                     "planned_holidays" => 'nullable|string|max:255',
                     "prev_org" => 'nullable|string|max:255',
@@ -76,7 +75,6 @@ class StoreRequest extends FormRequest
                     "questions" => 'nullable|string|max:255'
                 ];
             default:
-
                 return [
                     "$tab" => 'required|string|max:1000',
                     "$tab" . "_marks" => 'required|string|max:3',
@@ -96,11 +94,11 @@ class StoreRequest extends FormRequest
     public function saveCandidate()
     {
         $bucket = Bucket::with('candidate')->where('user_id', $this->user()->id)->first();
-        $bucket->update(['user_id' => null]);
+        $bucket->update(['user_id' => null, 'is_submitted' => true]);
 
         CreateGoogleEntry::dispatch(
             $bucket->candidate->id,
-            $this->user()->name . ' & ' . $this->conducted_by
+           $this->conducted_by && strlen($this->conducted_by) > 5 ?  $this->user()->name . ', '.$this->conducted_by: $this->user()->name
         );
     }
 }

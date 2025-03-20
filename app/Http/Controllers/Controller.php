@@ -46,7 +46,6 @@ abstract class Controller
         return [
             'csrf_token' => csrf_token(),
             'api_token' => $user?->api_token,
-            'pound_at' => 2100,
             'auth' => [
                 'user' => new UserResource($user)
             ]
@@ -64,15 +63,12 @@ abstract class Controller
 
         $bucket = Bucket::where([
             'candidate_no'=> request()->candidate_no,
-            'venue_id' => request()->user()->venue_id
+            'venue_id' => request()->user()->venue_id,
+            'is_submitted' => false
             ])->first();
 
         if (!$bucket) {
             throw new \Exception("The number doesn't exist.", 404);
-        }
-
-        if ($bucket->user_id) {
-            throw new \Exception("The number is already taken.", 403);
         }
 
         return  $bucket;

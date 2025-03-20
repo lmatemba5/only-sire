@@ -16,7 +16,7 @@ class InterviewController extends Controller
 {
     public function store(StoreRequest $request): JsonResponse
     {
-        $candidate_id = Bucket::where('user_id', $request->user()->id)->first()->candidate_id;
+        $candidate_id = Bucket::where(['user_id' => $request->user()->id, 'is_submitted' => false])->first()->candidate_id;
 
         switch ($request->tab) {
             case 'personal_details':
@@ -47,11 +47,14 @@ class InterviewController extends Controller
                     ]
                 );
                 break;
+            case 'submit':
+                $request->saveCandidate();
+                break;
             case 'additional_questions':
                 DawahAttribute::updateOrCreate(
                     ['candidate_id' => $candidate_id],
                     [
-                        "addition_questions->prev_job" => $request->previous_job,
+                        "addition_questions->prev_job" => $request->prev_job,
                         "addition_questions->when_to_start" => $request->when_to_start,
                         "addition_questions->planned_holidays" => $request->planned_holidays,
                         "addition_questions->prev_org" => $request->prev_org,
@@ -60,7 +63,6 @@ class InterviewController extends Controller
                         "addition_questions->questions" => $request->questions,
                     ]
                 );
-                $request->saveCandidate();
                 break;
             default:
                 DawahAttribute::updateOrCreate(
@@ -87,7 +89,7 @@ class InterviewController extends Controller
 
     public function show(Request $request, $user_id): JsonResponse
     {
-        if($user_id != $request->user()->id){
+        if ($user_id != $request->user()->id) {
             return new JsonResponse([
                 'message' => "Forbidden, the action will be reported."
             ], 403);
@@ -126,7 +128,7 @@ class InterviewController extends Controller
 
     public function create(Request $request)
     {
-        $bucket = Bucket::where('user_id', $request->user()->id)->first();
+        $bucket = Bucket::where(['user_id' => $request->user()->id, 'is_submitted' => false])->first();
         $candidateData = null;
 
         if ($bucket) {
@@ -176,7 +178,6 @@ class InterviewController extends Controller
             'data' => [
                 'activeTab' => 'interviews',
                 'candidate' => $candidateData,
-                'conducted_by' => $request->session()->get('conducted_by'),
                 'venues' => $request->user()->venues()->select('venues.id', 'district_name', 'venue_name')->get(),
                 ...$this->data()
             ],
@@ -198,7 +199,7 @@ class InterviewController extends Controller
 
     public function destroy_temporary_candidate(): JsonResponse
     {
-        $bucket = Bucket::where('user_id', request()->user()->id)->first();
+        $bucket = Bucket::where(['user_id' => request()->user()->id, 'is_submitted' => false])->first();
 
         if (!$bucket) {
             return new JsonResponse(null, 404);

@@ -16,7 +16,8 @@ export default class IndexPage extends React.Component {
             currentPage: null,
             is_deleting: false,
             candidate: this.props.candidate,
-            candidate_no: null
+            candidate_no: null,
+            conducted_by: null,
         };
 
         this.toastRef = createRef(null);
@@ -79,7 +80,6 @@ export default class IndexPage extends React.Component {
                         switchPage={this.switchPage}
                         toastRef={this.toastRef}
                         initialState={this.state.candidate}
-                        conducted_by={this.props.conducted_by}
                         updateCandidate={this.updateCandidate}
                         token={this.props.api_token}
                     />

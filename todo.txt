@@ -1,1 +1,6 @@
 - User creation
+- Tag candidates as kaligondo so that next time they come you do not wait time with them.
+- easy navigation to previous question 
+- add a boolean column to indicate that a candidate is submitted intead of user_id being null
+
+important - delete a venue logs me out 

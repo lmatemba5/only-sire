@@ -1,17 +1,10 @@
-import PrimaryButton from "@/components/PrimaryButton";
-import SecondaryButton from "@/components/SecondaryButton";
-import Spinner from "@/components/Spinner";
 import QuestionTemplate from "@/partials/form/QuestionTemplate";
 
 export default function AdditionalQuestions({
-    is_processing,
     form_data,
     form_errors,
     handleChange,
-    addQNext,
-    addQBack,
-    activeQuestion,
-    conducted_by,
+    activeQuestion
 }) {
     const renderCurrentQuestion = () => {
         switch (activeQuestion) {
@@ -110,7 +103,7 @@ export default function AdditionalQuestions({
                                 title: ["Do you have any questions?"],
                                 emphasize:
                                     "(Other contact or emergency details)",
-                                description: [],
+                                description: ["Note that you can release the candidate after this question."],
                             },
                             info: {
                                 description: "",
@@ -125,7 +118,7 @@ export default function AdditionalQuestions({
                         {...{ form_data, form_errors, handleChange }}
                         details={{
                             question: {
-                                key: "previous_job",
+                                key: "prev_job",
                                 title: [
                                     "What is your previous / current job / notice period / current ",
                                     "or previous salary",
@@ -142,61 +135,5 @@ export default function AdditionalQuestions({
         }
     };
 
-    return (
-        <div
-            className="flex justify-between flex-col"
-            style={{ minHeight: "330px" }}
-        >
-            {renderCurrentQuestion()}
-
-            <div
-                className={`flex items-center justify-between  px-2 space-x-3`}
-            >
-                <input
-                    onChange={(e) => handleChange(e.target)}
-                    defaultValue={conducted_by}
-                    name="conducted_by"
-                    className={`input input-bordered w-7/12 ${
-                        form_errors["conducted_by"]
-                            ? "border border-red-500 placeholder-red-500"
-                            : ""
-                    }`}
-                    placeholder={`${
-                        form_errors["conducted_by"]
-                            ? "This field is required"
-                            : "Conducted by you and ... type"
-                    }`}
-                />
-
-                <div
-                    className={`flex items-center justify-end  px-2 space-x-3`}
-                >
-                    <SecondaryButton className="btn" onClick={() => addQBack()}>
-                        Back
-                    </SecondaryButton>
-                    <PrimaryButton
-                        className={`btn btn-primary ${
-                            activeQuestion != 7 ? "" : "hidden"
-                        }`}
-                        onClick={() => addQNext()}
-                    >
-                        NEXT
-                    </PrimaryButton>
-                    <PrimaryButton
-                        disabled={is_processing}
-                        className={`${
-                            activeQuestion != 7 ? "hidden" : ""
-                        } btn btn-success bg-green-600 hover:bg-green-800`}
-                        onClick={() => addQNext()}
-                    >
-                        {is_processing ? (
-                            <Spinner text="Processing..." className="w-6 h-6" />
-                        ) : (
-                            "SUBMIT"
-                        )}
-                    </PrimaryButton>
-                </div>
-            </div>
-        </div>
-    );
+    return renderCurrentQuestion()
 }

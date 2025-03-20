@@ -22,6 +22,7 @@ class Bucket extends Model implements HasMedia
         'ph_google_drive_id',
         'cv_google_drive_id',
         'id_google_drive_id',
+        'is_submitted'
     ];
 
     public function venue(): BelongsTo

@@ -2,10 +2,6 @@ import {
     Building,
     Home,
     ScrollText,
-    HandCoins,
-    FileSymlink,
-    List,
-    ArrowRightLeft,
     Users,
 } from "lucide-react";
 

@@ -477,8 +477,7 @@ class GoogleService
 
 
                 if (!$found) {
-
-                    $requests = [
+                    $requests =[
                         new Request([
                             'addSheet' => [
                                 'properties' => [
@@ -499,12 +498,11 @@ class GoogleService
                     $response = $sheetService->spreadsheets->batchUpdate(
                         $this->venue->year->google_workbook_id,
                         new BatchUpdateSpreadsheetRequest([
-                            'requests' => $requests,
+                            'requests' => $requests
                         ])
                     );
 
                     $sheetId = $response->getReplies()[0]->getAddSheet()->getProperties()->getSheetId();
-
                     $this->initializeSheet($sheetService, $sheetId);
 
                     $this->venue->update([
@@ -549,7 +547,7 @@ class GoogleService
                     'month_id' => $month->id,
                 ]);
 
-                $this->venue = Venue::find($this->venue->id);
+                $this->venue->refresh();
             }
 
             if ($this->venue->google_drive_id == null) {
@@ -840,7 +838,7 @@ class GoogleService
 
         $bucket = Bucket::create([
             'venue_id' => $request->venue_id,
-            'candidate_no' => count($candidates) + 1,
+            'candidate_no' => count($candidates) + 1
         ]);
 
         foreach (['id', 'cv', 'ph', 'ce'] as $docType) {

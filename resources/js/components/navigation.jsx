@@ -19,9 +19,9 @@ export default class Navigation extends React.Component {
                 "team_management",
                 "reporting_skills",
                 "complementary_skills",
+                "additional_questions",
                 "interview_checklist",
                 "recommendation",
-                "additional_questions",
                 "",
                 "",
             ],
@@ -36,10 +36,11 @@ export default class Navigation extends React.Component {
                 a: "0",
                 pa: "0",
                 ot: "0",
-                candidate_no: undefined
+                candidate_no: undefined,
             },
             form_errors: {},
             activeQuestion: 1,
+            showSubmitButton: false,
         };
     }
 
@@ -52,7 +53,6 @@ export default class Navigation extends React.Component {
                     linkedin_link,
                     instagram_link,
                     related_to,
-                    conducted_by,
                 } = form_data;
                 return {
                     facebook_link,
@@ -60,7 +60,6 @@ export default class Navigation extends React.Component {
                     linkedin_link,
                     instagram_link,
                     related_to,
-                    conducted_by,
                 };
             case "personal_details":
                 const {
@@ -73,7 +72,6 @@ export default class Navigation extends React.Component {
                     email,
                     phone,
                     gender,
-                    conducted_by: conduct1,
                 } = form_data;
                 return {
                     name,
@@ -85,28 +83,25 @@ export default class Navigation extends React.Component {
                     email,
                     phone,
                     gender,
-                    conducted_by: conduct1,
                 };
             case "interview_checklist":
-                const { wp, pbl, a, pa, ot, conducted_by: conduct2 } = form_data;
+                const { wp, pbl, a, pa, ot } = form_data;
                 return {
                     wp,
                     pbl,
                     a,
                     pa,
                     ot,
-                    conducted_by: conduct2,
                 };
             case "additional_questions":
                 const {
-                    conducted_by: conduct3,
                     when_to_start,
                     planned_holidays,
                     prev_org,
                     prev_org_objective,
                     iera_friends,
                     questions,
-                    previous_job,
+                    prev_job,
                 } = form_data;
 
                 return {
@@ -116,8 +111,7 @@ export default class Navigation extends React.Component {
                     prev_org_objective,
                     iera_friends,
                     questions,
-                    previous_job,
-                    conducted_by: conduct3,
+                    prev_job,
                 };
             default:
                 return {
@@ -129,10 +123,11 @@ export default class Navigation extends React.Component {
     };
 
     validate = async (e) => {
-        let { currentPage, form_data } = this.state;
+        let { currentPage, form_data, showSubmitButton } = this.state;
+        
         const data = {
-            tab: currentPage,
-            ...this.filterFormData(currentPage, form_data),
+            tab: showSubmitButton ? "submit": currentPage,
+            ...(showSubmitButton ? []:this.filterFormData(currentPage, form_data)),
         };
 
         this.setState({
@@ -145,7 +140,7 @@ export default class Navigation extends React.Component {
                 Authorization: `Bearer ${this.props.token}`
             }
         }).then((resp) => {
-            if (currentPage == "additional_questions") {
+            if (currentPage == "recommendation" && showSubmitButton) {
                 
                 this.props.toastRef.current.show({
                     type: "success",
@@ -190,17 +185,26 @@ export default class Navigation extends React.Component {
         return score;
     };
 
-    next = (params) => {
-        let { index, queue, ALL_TABS, currentPage, form_data } =
-            params != null ? params : this.state;
+    next = () => {
+        let { index, queue, ALL_TABS, currentPage, form_data, activeQuestion } =
+            this.state;
 
         if (index < ALL_TABS.length - 1) {
-            index += 1;
+            if (currentPage != "additional_questions" || activeQuestion == 7) {
+                index += 1;
+            }
 
             if (index > 2) {
-                queue.shift();
-                queue.push(ALL_TABS[index]);
-                currentPage = queue[0];
+                if (
+                    currentPage == "additional_questions" &&
+                    activeQuestion < 7
+                ) {
+                    activeQuestion += 1;
+                } else {
+                    queue.shift();
+                    queue.push(ALL_TABS[index]);
+                    currentPage = queue[0];
+                }
             }
 
             this.updateTotalScore(form_data);
@@ -209,9 +213,15 @@ export default class Navigation extends React.Component {
                 queue,
                 index,
                 currentPage,
+                activeQuestion,
                 form_data,
                 form_errors: {},
                 is_processing: false,
+            });
+        } else if (index == 17) {
+            this.setState({
+                showSubmitButton: true,
+                is_processing: false
             });
         }
     };
@@ -225,24 +235,51 @@ export default class Navigation extends React.Component {
             )
             .forEach((entry, index) => {
                 const mark = entry[1].split("/")[0];
+                if (!form_data.totalScore) {
+                    form_data["totalScore"] = [];
+                }
                 form_data.totalScore[index] = Number(mark);
             });
     };
 
     back = () => {
-        let { index, queue, ALL_TABS, currentPage } = this.state;
+        let {
+            index,
+            queue,
+            ALL_TABS,
+            currentPage,
+            activeQuestion,
+            showSubmitButton,
+        } = this.state;
 
-        if (index > 0) {
-            index -= 1;
+        if (showSubmitButton) {
+            this.setState({
+                showSubmitButton: false,
+            });
+        } else if (index > 0) {
+            if (currentPage != "additional_questions") {
+                index -= 1;
+            } else if (activeQuestion == 1) {
+                index -= 1;
+            }
 
             if (index > 1) {
-                queue.pop();
-                queue = [ALL_TABS[index - 2], ...queue];
-                currentPage = queue[queue.length - 3];
+                if (
+                    currentPage == "additional_questions" &&
+                    activeQuestion > 1 &&
+                    activeQuestion <= 7
+                ) {
+                    activeQuestion -= 1;
+                } else {
+                    queue.pop();
+                    queue = [ALL_TABS[index - 2], ...queue];
+                    currentPage = queue[queue.length - 3];
+                }
             }
 
             this.setState({
                 queue,
+                activeQuestion,
                 index,
                 currentPage,
             });

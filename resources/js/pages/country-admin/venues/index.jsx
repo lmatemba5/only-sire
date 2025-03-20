@@ -137,7 +137,6 @@ export default class IndexPage extends React.Component {
                     },
                 })
                 .then((resp) => {
-                    console.log(resp.data);
                     venues = venues.data.filter((pred) => pred.id !== venue_id);
 
                     this.setState({
@@ -157,7 +156,6 @@ export default class IndexPage extends React.Component {
                     });
                 })
                 .catch((error) => {
-                    console.log(error?.response);
                     this.setState({
                         showConfirmModal: false,
                         openableVenue: null,
@@ -166,7 +164,6 @@ export default class IndexPage extends React.Component {
                     });
                 });
         } catch (error) {
-            console.log(error);
         }
     };
 
@@ -564,7 +561,7 @@ export default class IndexPage extends React.Component {
 
                         <Modal show={this.state.showConfirmModal}>
                             <div className="rounded-lg min-h-24 min-w-8 text-center bg-white drop-shadow border">
-                                <div className="rounded-t-lg p-2 bg-gray-100 border-b flex justify-between items-center">
+                                <div className="rounded-t-lg p-2 bg-gray-100 border-b flex justify-between">
                                     <label>
                                         Delete (
                                         <b>{this.state?.openableVenue?.name}</b>
@@ -578,7 +575,7 @@ export default class IndexPage extends React.Component {
                                     </button>
                                 </div>
                                 <div className="h-fit p-4 space-y-1 text-left">
-                                    Are you sure you want to delete this venue?
+                                    Are you sure to <span className="text-red-600 font-bold">delete</span> this venue?
                                 </div>
                                 <div className="rounded-b-lg p-2 flex justify-end space-x-4 items-center">
                                     <button

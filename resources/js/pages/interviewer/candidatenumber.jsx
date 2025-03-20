@@ -25,9 +25,9 @@ export default class CandidateNumber extends React.Component {
         await axios
             .post("/api/v1/validate_candidate_no", this.state.form_data, {
                 headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.props.token}`
-                }
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.props.token}`,
+                },
             })
             .then((resp) => {
                 this.setState({
@@ -36,9 +36,9 @@ export default class CandidateNumber extends React.Component {
                 });
             })
             .catch((error) => {
-                this.setState({ 
-                    is_processing: false, 
-                    form_errors: error?.response?.data?.errors
+                this.setState({
+                    is_processing: false,
+                    form_errors: error?.response?.data?.errors,
                 });
 
                 this.props.toastRef.current.show({
@@ -54,9 +54,9 @@ export default class CandidateNumber extends React.Component {
         await axios
             .post("/api/v1/create_new_candidate", this.state.form_data, {
                 headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${this.props.token}`
-                }
+                    Accept: "application/json",
+                    Authorization: `Bearer ${this.props.token}`,
+                },
             })
             .then(() => {
                 this.props.toastRef.current.show({
@@ -72,10 +72,10 @@ export default class CandidateNumber extends React.Component {
                 this.props.switchPage("interviews");
             })
             .catch((error) => {
-                this.setState({ 
+                this.setState({
                     is_processing: false,
-                    form_errors: error?.response?.data?.errors
-                 });
+                    form_errors: error?.response?.data?.errors,
+                });
 
                 this.props.toastRef.current.show({
                     type: "error",
@@ -119,7 +119,7 @@ export default class CandidateNumber extends React.Component {
                                     form_data: {
                                         ...this.state.form_data,
                                         candidate_no: event.target.value,
-                                    }
+                                    },
                                 })
                             }
                             readOnly={candidate_photo_url || is_processing}
