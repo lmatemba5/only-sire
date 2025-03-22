@@ -30,11 +30,11 @@ class InterviewController extends Controller
                 DawahAttribute::updateOrCreate(
                     ['candidate_id' => $candidate_id],
                     [
-                        'checklist->wp' => $request->wp,
-                        'checklist->pbl' => $request->pbl,
-                        'checklist->pa' => $request->pa,
-                        'checklist->a' => $request->a,
-                        'checklist->ot' => $request->ot,
+                        'checklist->wp' => $request->wp ?? '0',
+                        'checklist->pbl' => $request->pbl ?? '0',
+                        'checklist->pa' => $request->pa ?? '0',
+                        'checklist->a' => $request->a ?? '0',
+                        'checklist->ot' => $request->ot ?? '0',
                     ]
                 );
                 break;

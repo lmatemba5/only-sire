@@ -42,9 +42,12 @@ class Bucket extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumb')
+        if($media?->collection_name === 'ph')
+        {
+            $this->addMediaConversion('thumb')
               ->width(200)
               ->height(200)
               ->sharpen(10)->nonQueued();
+        }
     }
 }

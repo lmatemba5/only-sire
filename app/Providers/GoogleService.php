@@ -842,8 +842,11 @@ class GoogleService
         ]);
 
         foreach (['id', 'cv', 'ph', 'ce'] as $docType) {
-            if ($docType == 'ce') {
-                for ($i = 1; $i <= $request->certificate_count; $i++) {
+
+            if ($docType == 'ce' || $docType == 'cv') {
+                $totalImages = $docType == 'ce' ? $request->certificate_count : $request->cv_count;
+
+                for ($i = 1; $i <= $totalImages; $i++) {
                     $bucket->addMediaFromRequest($docType . '' . $i)->usingName($docType)->usingFileName($bucket->candidate_no . '.jpg')->toMediaCollection($docType);
                 }
             } else {

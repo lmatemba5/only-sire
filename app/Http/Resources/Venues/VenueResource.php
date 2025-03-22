@@ -22,7 +22,9 @@ class VenueResource extends JsonResource
             'name' => $this->venue_name.', '.$this->district_name,
             'open_at' => $this->open_at->format('d-m-Y'),
             'open_at_date' => $this->open_at->format('d F, Y'),
-            'link' => $this->google_drive_id,
+            'drive_link' => $this->google_drive_id,
+            'sheet_id' => $this->google_sheet_id,
+            'db_link' => $this->year->google_workbook_id,
             'status' => $this->status,
             'team' => TeamResource::collection($this->team),
             'folders' => FolderResource::collection(

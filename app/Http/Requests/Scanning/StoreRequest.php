@@ -23,7 +23,9 @@ class StoreRequest extends FormRequest
     {
         return [
             'ce*' => 'nullable|file',
-            'cv' => 'required|file',
+            'cv*' => 'required|file',
+            'cv_count' => 'required|integer',
+            'certificate_count' => 'required|integer',
             'id' => 'required|file',
             'ph' => 'required|file',
             'venue_id' => 'required'

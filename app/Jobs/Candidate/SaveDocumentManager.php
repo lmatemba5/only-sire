@@ -11,7 +11,8 @@ class SaveDocumentManager extends QueueJob
     /**
      * Create a new job instance.
      */
-    public function __construct(protected $bucket_id){
+    public function __construct(protected $bucket_id)
+    {
         $this->queue = findQueue();
     }
 
@@ -35,12 +36,20 @@ class SaveDocumentManager extends QueueJob
                 }
             }
 
-            foreach ($bucket->getMedia($collection_name) as $media) {
+            if ($collection_name == 'cv') {
                 SaveDocument::dispatch(
                     $bucket,
                     $target_google_drive_id,
-                    $media->id
+                    null
                 )->onQueue($this->queue);
+            } else {
+                foreach ($bucket->getMedia($collection_name) as $media) {
+                    SaveDocument::dispatch(
+                        $bucket,
+                        $target_google_drive_id,
+                        $media
+                    )->onQueue($this->queue);
+                }
             }
         }
     }

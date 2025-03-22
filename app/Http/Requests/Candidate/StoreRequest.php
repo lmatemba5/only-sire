@@ -50,11 +50,11 @@ class StoreRequest extends FormRequest
                 ];
             case 'interview_checklist':
                 return [
-                    "wp" => 'required|integer|max:1|min:0',
-                    "pbl" => 'required|integer|max:1||min:0',
-                    "a" => 'required|integer|max:1|min:0',
-                    "pa" => 'required|integer|max:1|min:0',
-                    "ot" => 'required|integer|max:1|min:0',
+                    "wp" => 'nullable|integer|max:1|min:0',
+                    "pbl" => 'nullable|integer|max:1||min:0',
+                    "a" => 'nullable|integer|max:1|min:0',
+                    "pa" => 'nullable|integer|max:1|min:0',
+                    "ot" => 'nullable|integer|max:1|min:0',
                 ];
             case 'recommendation':
                 return [

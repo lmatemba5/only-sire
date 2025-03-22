@@ -163,8 +163,7 @@ export default class IndexPage extends React.Component {
                         deleting_id: null,
                     });
                 });
-        } catch (error) {
-        }
+        } catch (error) {}
     };
 
     handleChange = ({ name, value }) => {
@@ -354,7 +353,7 @@ export default class IndexPage extends React.Component {
                                 field="status"
                                 body={(venue) => (
                                     <label
-                                        className={`badge border-0 w-20 text-white ${
+                                        className={`flex justify-center items-center badge border-0 w-20 text-white ${
                                             venue.status == "Active"
                                                 ? "bg-green-500"
                                                 : venue.status == "Pending"
@@ -368,7 +367,7 @@ export default class IndexPage extends React.Component {
                                 filter
                                 className="border-r"
                                 sortable
-                                style={{ minWidth: "15em" }}
+                                style={{ maxWidth: "8em" }}
                                 headerStyle={{
                                     backgroundColor: "#674EA7",
                                     color: "white",
@@ -378,15 +377,15 @@ export default class IndexPage extends React.Component {
                             <Column
                                 showFilterMenu={false}
                                 headerClassName="uppercase border-r"
-                                header="Link"
+                                header="Database"
                                 body={(venue) => (
-                                    <div className="text-blue-500 max-w-fit">
-                                        {venue.link && (
+                                    <div className="text-blue-500 flex justify-center items-center">
+                                        {venue.db_link && (
                                             <a
                                                 className="tooltip"
-                                                data-tip="Open Drive"
+                                                data-tip="Open"
                                                 target="_blank"
-                                                href={`https://drive.google.com/drive/u/0/folders/${venue.link}`}
+                                                href={`https://docs.google.com/spreadsheets/d/${venue.db_link}/edit?gid=${venue.sheet_id}`}
                                             >
                                                 <ExternalLink />
                                             </a>
@@ -394,7 +393,33 @@ export default class IndexPage extends React.Component {
                                     </div>
                                 )}
                                 className="border-r"
-                                style={{ minWidth: "5em" }}
+                                style={{ maxWidth: "9em" }}
+                                headerStyle={{
+                                    backgroundColor: "#674EA7",
+                                    color: "white",
+                                }}
+                            />
+
+                            <Column
+                                showFilterMenu={false}
+                                headerClassName="uppercase border-r"
+                                header="Drive"
+                                body={(venue) => (
+                                    <div className="text-blue-500 flex justify-center items-center">
+                                        {venue.drive_link && (
+                                            <a
+                                                className="tooltip"
+                                                data-tip="Open"
+                                                target="_blank"
+                                                href={`https://drive.google.com/drive/u/0/folders/${venue.drive_link}`}
+                                            >
+                                                <ExternalLink />
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+                                className="border-r"
+                                style={{ maxWidth: "9em" }}
                                 headerStyle={{
                                     backgroundColor: "#674EA7",
                                     color: "white",
@@ -407,15 +432,15 @@ export default class IndexPage extends React.Component {
                                     color: "white",
                                 }}
                                 showFilterMenu={false}
-                                style={{ minWidth: "10em" }}
+                                style={{ minWidth: "8em" }}
                                 className=""
                                 headerClassName="uppercase"
                                 header="Action"
                                 body={(venue) => (
-                                    <div className="flex flex-row space-x-4 justify-center items-center">
+                                    <div className="flex flex-row space-x-4 justify-center items-center ">
                                         <div
                                             className="tooltip"
-                                            data-tip="Manage Venue"
+                                            data-tip="Manage"
                                         >
                                             <Settings
                                                 onClick={() =>
@@ -439,7 +464,7 @@ export default class IndexPage extends React.Component {
                                             ) : (
                                                 <div
                                                     className="tooltip"
-                                                    data-tip="Delete Venue"
+                                                    data-tip="Delete"
                                                 >
                                                     <Trash2
                                                         className="text-red-500 font-extrabold"
@@ -575,7 +600,11 @@ export default class IndexPage extends React.Component {
                                     </button>
                                 </div>
                                 <div className="h-fit p-4 space-y-1 text-left">
-                                    Are you sure to <span className="text-red-600 font-bold">delete</span> this venue?
+                                    Are you sure to{" "}
+                                    <span className="text-red-600 font-bold">
+                                        delete
+                                    </span>{" "}
+                                    this venue?
                                 </div>
                                 <div className="rounded-b-lg p-2 flex justify-end space-x-4 items-center">
                                     <button
