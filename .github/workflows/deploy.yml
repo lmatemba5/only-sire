@@ -1,4 +1,4 @@
-name: Deploy Laravel Application
+name: Deploying Latest SIRE Updates
 
 on:
   push:
