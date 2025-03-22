@@ -380,7 +380,7 @@ export default class IndexPage extends React.Component {
                                 header="Database"
                                 body={(venue) => (
                                     <div className="text-blue-500 flex justify-center items-center">
-                                        {venue.db_link && (
+                                        {venue.sheet_id && (
                                             <a
                                                 className="tooltip"
                                                 data-tip="Open"

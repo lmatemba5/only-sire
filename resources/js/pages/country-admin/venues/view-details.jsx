@@ -230,7 +230,7 @@ export default class VenueDetails extends React.Component {
                             Panel Members
                         </span>
                         <button
-                            disabled={this.props.venue.link == null || this.props.venue.status == 'Closed'}
+                            disabled={this.props.venue.drive_link == null || this.props.venue.status == 'Closed'}
                             onClick={() =>
                                 this.setState({ showAddMemberModal: true })
                             }
