@@ -14,7 +14,7 @@ class Bucket extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable=[
+    protected $fillable = [
         'venue_id',
         'candidate_id',
         'candidate_no',
@@ -40,14 +40,27 @@ class Bucket extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function clearMediaCollection(string $collectionName = 'default'): HasMedia
+    {
+        if ($collectionName == 'all') {
+            foreach (['id', 'cv', 'ph', 'ce'] as $collection) {
+                parent::clearMediaCollection($collection);
+            }
+        } else {
+            parent::clearMediaCollection($collectionName);
+        }
+
+        return $this;
+    }
+
+
     public function registerMediaConversions(?Media $media = null): void
     {
-        if($media?->collection_name === 'ph')
-        {
+        if ($media?->collection_name === 'ph') {
             $this->addMediaConversion('thumb')
-              ->width(200)
-              ->height(200)
-              ->sharpen(10)->nonQueued();
+                ->width(200)
+                ->height(200)
+                ->sharpen(10)->nonQueued();
         }
     }
 }

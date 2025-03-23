@@ -49,6 +49,8 @@ class RenameDocument extends QueueJob
             }
         }
 
+        $bucket->clearMediaCollection('all');
+
         $bucket->delete();
     }
 }
