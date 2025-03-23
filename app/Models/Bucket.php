@@ -44,10 +44,10 @@ class Bucket extends Model implements HasMedia
     {
         if ($collectionName == 'all') {
             foreach (['id', 'cv', 'ph', 'ce'] as $collection) {
-                parent::clearMediaCollection($collection);
+                $this->getMedia($collection)->each->delete();
             }
         } else {
-            parent::clearMediaCollection($collectionName);
+            $this->getMedia($collectionName)->each->delete();
         }
 
         return $this;
