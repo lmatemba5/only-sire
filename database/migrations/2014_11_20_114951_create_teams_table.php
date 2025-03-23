@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $main_db = env('DB_DATABASE');
-
-        Schema::create('teams', function (Blueprint $table) use($main_db){
+        Schema::create('teams', function (Blueprint $table){
             $table->id();
-            $table->foreignId('user_id')->constrained($main_db.'.users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('venue_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('is_verifier')->default(0);
             $table->timestamps();

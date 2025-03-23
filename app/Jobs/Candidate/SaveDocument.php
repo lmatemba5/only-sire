@@ -34,7 +34,7 @@ class SaveDocument extends QueueJob
             $cv_temp_storage_path = public_path('temp-cv.pdf');
             $pdf->save($cv_temp_storage_path);
 
-            //$this->bucket->clearMediaCollection('cv');
+            $this->bucket->clearMediaCollection('cv');
             $cv = $this->bucket->addMedia($cv_temp_storage_path)->usingName('cv')->usingFileName('cv.pdf')->toMediaCollection('cv');
             
             $this->media =  $cv;

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $main_db = env('DB_DATABASE');
-
-        Schema::create('venues', function (Blueprint $table) use ($main_db){
+        Schema::create('venues', function (Blueprint $table){
             $table->id();
             $table->string('district_name', 255);
             $table->string('venue_name', 255);
             $table->foreignId('month_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('year_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('country_id')->constrained($main_db.".countries")->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('country_id')->constrained("countries")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('google_drive_id')->nullable();
             $table->string('google_sheet_id')->nullable();
             $table->date('open_at');

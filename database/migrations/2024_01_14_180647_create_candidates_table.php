@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $main_db = env('DB_DATABASE');
-
-        Schema::create('candidates', function (Blueprint $table) use($main_db){
+        Schema::create('candidates', function (Blueprint $table){
             $table->id();
             $table->string('name')->nullable();
             $table->integer('age')->nullable();
@@ -30,7 +28,7 @@ return new class extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('twitter_link')->nullable();
             $table->foreignId('venue_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained($main_db.'.users')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

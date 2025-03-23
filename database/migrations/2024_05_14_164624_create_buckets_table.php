@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $main_db = env('DB_DATABASE');
-        
-        Schema::create('buckets', function (Blueprint $table) use ($main_db){
+        Schema::create('buckets', function (Blueprint $table){
             $table->id();
             $table->integer('venue_id');
-            $table->foreignId('user_id')->nullable()->constrained($main_db.'.users')->nullOnDelete()->cascadeOnUpdate();;
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();;
             $table->integer('candidate_no')->nullable();
             $table->string('ph_google_drive_id')->nullable();
             $table->string('cv_google_drive_id')->nullable();
