@@ -1,4 +1,4 @@
-name: Deploying Latest SIRE Updates
+name: Deploying SIRE updates
 
 on:
   push:
@@ -20,4 +20,4 @@ jobs:
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
             cd /home/dev
-            ~/deploy.sh
+            ~/sire.sh

@@ -455,7 +455,7 @@ export default class IndexPage extends React.Component {
                                             />
                                         </div>
 
-                                        {venue.status != "Closed" ? (
+                                        {venue.status != "Clos" ? (
                                             deleting_id == venue.id ? (
                                                 <Spinner
                                                     text={null}
