@@ -221,8 +221,6 @@ export default class Interviews extends Navigation {
                             </button>
                         </div>
                         <div className="h-fit p-4 space-y-1 text-left">
-                           You <b>wont be able to edit</b> after submitting.
-                           <br/><br/>
                            <span className="text-red-600">Are you sure you want to submit</span>?
                         </div>
                         <div className="rounded-b-lg p-2 flex justify-end space-x-4 items-center">

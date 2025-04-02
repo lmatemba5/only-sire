@@ -28,14 +28,12 @@ return Application::configure(basePath: dirname(__DIR__))
     })->withExceptions(function (Exceptions $exceptions) {
     })->withSchedule(function(Schedule $schedule){
         for($i=0; $i<=1; $i++){
-            $command = "queue:work --queue=";
+            $command = "queue:work";
     
-            if($i== 0){
-                $command .= "default";
-            }else{
-                $command .= "queue-worker-$i";
+            if($i > 0){
+                $command .= " --queue=queue-worker-$i ";
             }
     
-            $schedule->command("$command --tries=3 --stop-when-empty")->withoutOverlapping()->runInBackground()->everyTenSeconds();
+            $schedule->command("$command --tries=3 --stop-when-empty")->everyTenSeconds()->withoutOverlapping(3)->runInBackground();
         }
     })->create();
