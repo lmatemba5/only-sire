@@ -34,7 +34,6 @@ class SaveDocument extends QueueJob
             $cv_temp_storage_path = storage_path('app/public/temp-cv.pdf');
             $pdf->save($cv_temp_storage_path);
 
-            $this->bucket->clearMediaCollection('cv');
             $cv = $this->bucket->addMedia($cv_temp_storage_path)->usingName('cv')->usingFileName('cv.pdf')->toMediaCollection('cv');
             
             $this->media =  $cv;
@@ -52,7 +51,7 @@ class SaveDocument extends QueueJob
             ]
         );
 
-        if ($this->media->name != 'ce') {
+        if ($this->media->mime_type == 'application/pdf' || ($this->media->name != 'ce' && $this->media->name != 'cv')) {
             $this->bucket->update([
                 "{$this->media->name}_google_drive_id" => $driveFile->id
             ]);
