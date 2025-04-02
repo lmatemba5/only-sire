@@ -1,0 +1,22 @@
+apps: 
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+      - "--queue=queue-worker-1"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: queue-worker-1
+    script: "./artisan"
+  - 
+    args:
+      - "queue:work"
+      - "--tries=3"
+      - "--sleep=3"
+    exec_mode: fork
+    instances: 1
+    interpreter: php
+    name: default
+    script: "./artisan"
