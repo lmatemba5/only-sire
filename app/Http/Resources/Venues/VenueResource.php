@@ -19,7 +19,7 @@ class VenueResource extends JsonResource
       
         return [
             'id' => $this->id,
-            'name' => $this->venue_name.', '.$this->district_name,
+            'name' => $this->district_name.', '.$this->venue_name,
             'open_at' => $this->open_at->format('d-m-Y'),
             'open_at_date' => $this->open_at->format('d F, Y'),
             'drive_link' => $this->google_drive_id,
