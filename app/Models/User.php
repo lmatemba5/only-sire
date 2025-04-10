@@ -45,9 +45,18 @@ class User extends Authenticatable
 
     public function venues()
     {
+        if ($this->email == 'ibrahimmaulanah01@gmail.com') {
+            Team::join('venues', 'venues.id', 'teams.venue_id')
+                ->where('teams.user_id', $this->id)
+                ->where([
+                    ['venues.open_at', 'like',  "%" . now()->format('Y-m-') . "%"], 
+                    ['venues.country_id', $this->country_id]
+                ]);
+        }
+
         return Team::join('venues', 'venues.id', 'teams.venue_id')
-        ->where('teams.user_id', $this->id)
-        ->where('venues.open_at', now()->format('Y-m-d'));
+            ->where('teams.user_id', $this->id)
+            ->where(['venues.open_at', now()->format('Y-m-d')]);
     }
 
     public function isAdmin(): Attribute
@@ -86,7 +95,7 @@ class User extends Authenticatable
     {
         static::created(function (User $user) {
             $password = /*Str::random(10)*/ $user->email;
-            
+
             $user->update(['password' => bcrypt($password)]);
 
             /*$email = new CredentialsNotification($user, $password);

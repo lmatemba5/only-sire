@@ -98,7 +98,7 @@ class StoreRequest extends FormRequest
 
         CreateGoogleEntry::dispatch(
             $bucket->candidate->id,
-           $this->conducted_by && strlen($this->conducted_by) > 5 ?  $this->user()->name . ', '.$this->conducted_by: $this->user()->name
+           $this->conducted_by ?  $this->user()->name . ', '.$this->conducted_by: $this->user()->name
         );
     }
 }
