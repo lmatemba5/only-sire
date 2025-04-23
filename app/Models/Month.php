@@ -14,8 +14,14 @@ class Month extends Model
     protected $fillable = [
         'year_id',
         'google_drive_id',
-        'uuid'
+        'uuid',
+        'country_id'
     ];
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 
     public function year(): BelongsTo
     {

@@ -314,7 +314,7 @@ class GoogleService
             $docsService->documents->batchUpdate($candidateForm->id, $batchUpdateRequest);
 
             $sheetService = $this->getSheetsService();
-            $range = "{$this->candidate->venue->open_at->format('d F')} - {$this->candidate->venue->district_name} {$this->candidate->venue->venue_name}!A:X";
+            $range = "{$this->candidate->venue->open_at->format('d_F')}_".implode("_", explode(" ", $this->candidate->venue->district_name))."_".implode("_", explode(" ", $this->candidate->venue->venue_name))."!A:X";
             $settings = $this->getSettings($sheetService);
             $interviewFormLink = $candidateForm->getWebViewLink();
 
@@ -433,13 +433,13 @@ class GoogleService
                     'google_workbook_id' => $workbook->id,
                 ]);
 
-                $sheetService->spreadsheets->batchUpdate($this->venue->year->google_workbook_id, new BatchUpdateSpreadsheetRequest([
+                $sheetService->spreadsheets->batchUpdate($workbook->id, new BatchUpdateSpreadsheetRequest([
                     'requests' => [
                         new Request([
                             'updateSheetProperties' => [
                                 'properties' => [
                                     'sheetId' => 0,
-                                    'title' => "{$this->venue->open_at->format('d F')} - {$this->venue->district_name} {$this->venue->venue_name}",
+                                    'title' => "{$this->venue->open_at->format('d_F')}_".implode("_", explode(" ", $this->venue->district_name))."_".implode("_", explode(" ", $this->venue->venue_name)),
                                 ],
                                 'fields' => 'title',
                             ],
@@ -454,14 +454,12 @@ class GoogleService
                 ]);
 
                 $this->venue->refresh();
-            }
-
-            if ($this->venue->google_sheet_id == null) {
+            }else{
                 $sheets = $sheetService->spreadsheets->get($this->venue->year->google_workbook_id)->getSheets();
 
                 $found = false;
                 $sheetId = null;
-                $sheetTitle = "{$this->venue->open_at->format('d F')} - {$this->venue->district_name} {$this->venue->venue_name}";
+                $sheetTitle = "{$this->venue->open_at->format('d_F')}_".implode("_", explode(" ", $this->venue->district_name))."_".implode("_", explode(" ", $this->venue->venue_name));
 
                 foreach ($sheets as $sheet) {
                     $title =$sheet->getProperties()->getTitle();
@@ -541,6 +539,7 @@ class GoogleService
                     'year_id' => $this->venue->year_id,
                     'google_drive_id' => $mdf->id,
                     'uuid' => $this->venue->open_at->format('Y-m'),
+                    'country_id' => $this->venue->country_id,
                 ]);
 
                 $this->venue->update([
@@ -627,7 +626,7 @@ class GoogleService
 
         $sheetService->spreadsheets_values->append(
             $this->venue->year->google_workbook_id,
-            "'{$this->venue->open_at->format('d F')} - {$this->venue->district_name} {$this->venue->venue_name}'!A1:X1",
+            "'{$this->venue->open_at->format('d_F')}_".implode("_", explode(" ", $this->venue->district_name))."_".implode("_", explode(" ", $this->venue->venue_name))."'!A1:X1",
             $body,
             $params
         );
@@ -847,7 +846,7 @@ class GoogleService
                 $totalImages = $docType == 'ce' ? $request->certificate_count : $request->cv_count;
 
                 for ($i = 1; $i <= $totalImages; $i++) {
-                    $bucket->addMediaFromRequest($docType . '' . $i)->usingName($docType)->usingFileName($bucket->candidate_no . '.jpg')->toMediaCollection($docType);
+                    $bucket->addMediaFromRequest($docType . '' . $i)->usingName($docType. '' . $i)->usingFileName($bucket->candidate_no . '.jpg')->toMediaCollection($docType);
                 }
             } else {
                 $bucket->addMediaFromRequest($docType)->usingName($docType)->usingFileName($bucket->candidate_no . '.jpg')->toMediaCollection($docType);

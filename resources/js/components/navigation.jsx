@@ -127,7 +127,7 @@ export default class Navigation extends React.Component {
         
         const data = {
             tab: showSubmitButton ? "submit": currentPage,
-            ...(showSubmitButton ? []:this.filterFormData(currentPage, form_data)),
+            ...(showSubmitButton ? {conducted_by: form_data.conducted_by}:this.filterFormData(currentPage, form_data)),
         };
 
         this.setState({

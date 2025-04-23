@@ -29,14 +29,12 @@ class SaveDocument extends QueueJob
         ]);
 
         if (!$this->media) {
-            $pdf = Pdf::loadView('pdfs.generate-cv', ['bucket' => $this->bucket]);
+            $pdf = Pdf::loadView('pdfs.generate-cv', ['cv_pages' => $this->bucket->getMedia('cv')->sortBy('name')->values()]);
             $pdf->setPaper('A4', 'portrait');
             $cv_temp_storage_path = storage_path('app/public/temp-cv.pdf');
             $pdf->save($cv_temp_storage_path);
 
-            $cv = $this->bucket->addMedia($cv_temp_storage_path)->usingName('cv')->usingFileName('cv.pdf')->toMediaCollection('cv');
-            
-            $this->media =  $cv;
+            $this->media = $this->bucket->addMedia($cv_temp_storage_path)->usingName('cv')->usingFileName('cv.pdf')->toMediaCollection('cv');
         }
 
         $driveFile = $driveService->files->create(

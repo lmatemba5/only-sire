@@ -5,7 +5,7 @@ use Stevebauman\Location\Facades\Location;
 
 function countryName()
 {
-    $location = Location::get(!app()->environment('local') ? request()->ip() : '102.71.255.3');
+    $location = Location::get(!app()->environment('local') ? request()->ip() : '156.159.114.3');
     return $location->countryName;
 }
 

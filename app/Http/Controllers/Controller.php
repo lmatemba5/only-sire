@@ -11,29 +11,42 @@ use App\Http\Resources\Users\UserResource;
 
 abstract class Controller
 {
-    protected array $props=[];
+    protected array $props = [];
 
-    protected function currentMonth(){
+    protected function currentMonth()
+    {
         $open_at = Carbon::parse(request()->open_at);
 
-        $venue = Venue::where('open_at', 'like', $open_at->format('Y-m-'). '%')->first();
+        $venue = Venue::where([
+            ['open_at', 'like', $open_at->format('Y-m-') . '%'],
+            ['country_id', request()->user()->country_id]
+        ])->first();
 
         if (!$venue) {
-            $year = Year::where('created_at', 'like', $open_at->format('Y-'). '%')->first();
+            $year = Year::where([
+                ['created_at', 'like', $open_at->format('Y-') . '%'],
+                ['country_id', request()->user()->country_id]
+            ])->first();
 
             if (!$year) {
-                $year = Year::create([]);
+                $year = Year::create([
+                    'country_id' => request()->user()->country_id
+                ]);
             }
 
-            $month = Month::where('uuid', $open_at->format('Y-m'))->first();
+            $month = Month::where([
+                ['uuid', $open_at->format('Y-m')],
+                ['country_id', request()->user()->country_id]
+            ])->first();
 
-            if(!$month){
+            if (!$month) {
                 $month = Month::create([
                     'year_id' => $year->id,
                     'uuid' => $open_at->format('Y-m'),
+                    'country_id' => request()->user()->country_id
                 ]);
             }
-        }else{
+        } else {
             $month = $venue->month;
         }
 
@@ -52,20 +65,22 @@ abstract class Controller
         ];
     }
 
-    protected function check_candidate_no(){
+    protected function check_candidate_no()
+    {
         request()->validate(
             [
                 'candidate_no' => 'required|integer|exists:buckets,candidate_no',
-            ], [
-              "*.exists" => "The number doesn't exist."  
+            ],
+            [
+                "*.exists" => "The number doesn't exist."
             ]
         );
 
         $bucket = Bucket::where([
-            'candidate_no'=> request()->candidate_no,
+            'candidate_no' => request()->candidate_no,
             'venue_id' => request()->user()->venue_id,
             'is_submitted' => false
-            ])->first();
+        ])->first();
 
         if (!$bucket) {
             throw new \Exception("The number doesn't exist.", 404);

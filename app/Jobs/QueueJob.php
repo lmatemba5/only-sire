@@ -12,6 +12,6 @@ abstract class QueueJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $tries = 3; 
+    public int $tries = 1; 
     public int $backoff = 10;
 }

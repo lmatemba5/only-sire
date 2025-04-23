@@ -31,9 +31,9 @@
     </style>
 </head>
 <body>
-    @foreach ($bucket->getMedia('cv') as $cv)
+    @foreach ($cv_pages as $page)
         <div class="page">
-                <img src="{{ $cv->getPath() }}" alt="Image">
+            <img src="{{ $page->getPath() }}" alt="Image">
         </div>
     @endforeach
 </body>

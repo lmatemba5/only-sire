@@ -13,7 +13,13 @@ class Year extends Model
     protected $fillable = [
         'google_drive_id',
         'google_workbook_id',
+        'country_id'
     ];
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 
     public function months(): HasMany
     {

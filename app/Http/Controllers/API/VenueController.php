@@ -38,8 +38,8 @@ class VenueController extends Controller
         $venue = Venue::create([
              ...$request->validated(),
             'month_id' => $month->id,
-            'year_id' => $month->year->id,
-            'country_id' => $request->user()->country_id,
+            'year_id' => $month->year_id,
+            'country_id' => $month->country_id,
         ]);
 
         return new VenueResource($venue);
