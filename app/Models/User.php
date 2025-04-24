@@ -45,13 +45,6 @@ class User extends Authenticatable
 
     public function venues()
     {
-        if ($this->email == 'ibrahimmaulanah01@gmail.com') {
-            return Team::join('venues', 'venues.id', 'teams.venue_id')
-                ->where('teams.user_id', $this->id)
-                ->where('venues.open_at', 'like',  "%" . now()->format('Y-m-') . "%")
-                ->where('venues.country_id', $this->country_id);
-        }
-
         return Team::join('venues', 'venues.id', 'teams.venue_id')
             ->where('teams.user_id', $this->id)
             ->where('venues.open_at', now()->format('Y-m-d'));
