@@ -72,7 +72,7 @@ class VenueController extends Controller
 
     public function create()
     {
-        $venues = Venue::where('country_id', request()->user()->country_id)->orderBy('open_at')->paginate(10);
+        $venues = Venue::where('country_id', request()->user()->country_id)->latest()->orderBy('open_at')->paginate(10);
 
         if(!request()->user()->hasAnyRole(['Country Admin', 'Root'])){
             return redirect('/interviews');
