@@ -134,6 +134,8 @@ export default class Navigation extends React.Component {
             is_processing: true,
         });
 
+        this.updateTotalScore(form_data);
+
         await axios.post("/api/v1/validate_candidate_data", data, {
             headers: {
                 Accept: 'application/json',
@@ -206,8 +208,6 @@ export default class Navigation extends React.Component {
                     currentPage = queue[0];
                 }
             }
-
-            this.updateTotalScore(form_data);
 
             this.setState({
                 queue,
