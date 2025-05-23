@@ -35,6 +35,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/test-load', function () {
     Log::info('Load test hit');
-    sleep(10);
+    sleep(2);
     return response()->json(['status' => 'ok']);
 });
