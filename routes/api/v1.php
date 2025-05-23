@@ -7,6 +7,7 @@ use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\VenueController;
 use App\Http\Controllers\API\InterviewController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 Route::post('login', [LoginController::class, 'mobile_password_login']);
 
@@ -30,4 +31,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('my_venues/{user_id}', [InterviewController::class, 'show']);
     
     Route::post('logout', [LoginController::class, 'mobile_password_logout']);
+});
+
+Route::get('/test-load', function () {
+    Log::info('Load test hit');
+    sleep(10);
+    return response()->json(['status' => 'ok']);
 });
