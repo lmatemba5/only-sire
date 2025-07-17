@@ -152,15 +152,15 @@ export default function HomePage() {
                                     <img
                                         class="h-12 w-12 rounded-full"
                                         src="https://reports.ieraafrica.org/img/avatars/annonymous.png"
-                                        alt="Shaheedah Saidi"
+                                        alt="Aisha Chirwa"
                                     />
                                 </div>
                                 <div class="ml-4">
                                     <h4 class="text-lg font-bold text-gray-900">
-                                        Shaheedah Saidi
+                                        Aisha Chirwa
                                     </h4>
                                     <p class="text-gray-600">
-                                        Assistant Country Admin, Latam
+                                        Country Admin, Malawi
                                     </p>
                                 </div>
                             </div>
