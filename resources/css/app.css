@@ -128,31 +128,83 @@ div.relative.h-full.w-full.p-4.max-w-2xl:focus {
 .p-column-header-content svg path {
     fill: white;
 }
-.p-datatable-wrapper{
+.p-datatable-wrapper {
     overflow-y: hidden !important;
 }
 
 div.p-dropdown.p-component.p-inputwrapper,
-div.p-dropdown.p-component.p-inputwrapper.p-focus.p-inputwrapper-focus{
+div.p-dropdown.p-component.p-inputwrapper.p-focus.p-inputwrapper-focus {
     padding: 0 !important;
 }
 
 div.p-dropdown.p-component.p-inputwrapper > input,
 div.p-dropdown.p-component.p-inputwrapper.p-focus.p-inputwrapper-focus > input,
 div.p-dropdown.p-component.p-inputwrapper > input:focus,
-div.p-dropdown.p-component.p-inputwrapper.p-focus.p-inputwrapper-focus > input:focus{
+div.p-dropdown.p-component.p-inputwrapper.p-focus.p-inputwrapper-focus
+    > input:focus {
     border-radius: 10px;
     border-width: 0px !important;
-    border-color: whitesmoke !important 
+    border-color: whitesmoke !important;
 }
 
 span.p-inputnumber > input,
 span.p-inputnumber > input:focus,
 span.p-inputnumber > input,
-span.p-inputnumber.p-inputwrapper-focus > input:focus{
+span.p-inputnumber.p-inputwrapper-focus > input:focus {
     border-radius: 10px;
     border-width: 0px !important;
-    border-color: whitesmoke !important 
+    border-color: whitesmoke !important;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+}
+
+h1 {
+    font-size: 16px;
+    margin-top: 0;
+}
+
+p {
+    color: rgb(107, 114, 128);
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.card {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 16px;
+    border: 1px solid lightgray;
+    border-radius: 16px;
+}
+
+.card p:last-child {
+    margin-bottom: 0;
+}
+
+.hero-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("https://reports.ieraafrica.org/img/interview.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.feature-icon {
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+    color: #3b82f6;
 }
 
 @tailwind base;
