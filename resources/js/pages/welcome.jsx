@@ -385,7 +385,7 @@ export default function HomePage(props) {
     );
 }
 
-//consoleSilencer();
+consoleSilencer();
 
 const root = document.getElementById("root");
 
