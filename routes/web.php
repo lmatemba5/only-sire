@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SystemController;
 
 Route::get('/', function () {
-    return view('pages.welcome');
+    return view('pages.welcome')->with([
+        "user" => request()->user()
+    ]);
 });
 
 Route::middleware(['auth', 'verified', 'active'])->group(function () {

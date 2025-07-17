@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => 'Home'])
 
 @section('content')
-<div id="root"></div>
+<div id="root" data="{{json_encode($user)}}"></div>
 @vite('resources/js/pages/welcome.jsx')
 @endSection
 

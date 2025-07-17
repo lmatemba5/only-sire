@@ -160,12 +160,12 @@ export default class AuthenticatedLayout extends React.Component {
 
                 <Notification ref={this.props.toastRef} />
                 <Modal
-                    className="max-w-fit p-0 max-h-fit mr-0 mt-16 ml-auto"
+                    className="max-w-fit p-0 h-fit mr-0 mt-16 ml-auto bg-transparent"
                     dismissible
                     show={this.state.showDropdown}
                     onClose={() => this.setShow(false)}
                 >
-                    <Modal.Body className="pb-2 pt-0 px-0 rounded-lg overflow-hidden w-36 border border-gray-300 shadow">
+                    <Modal.Body className="pb-0 pt-0 px-0 rounded-lg overflow-hidden min-w-40 w-fit border border-gray-300 shadow">
                         <div className="w-full border-b shadow py-1 bg-gray-100">
                             <label className="capitalize p-3">{auth.user.name}</label>
                         </div>

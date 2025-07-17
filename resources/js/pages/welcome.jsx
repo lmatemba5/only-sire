@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import consoleSilencer from "@/components/console-silencer";
 
-export default function HomePage() {
+export default function HomePage(props) {
     return (
         <>
             <nav class="shadow-lg fixed w-full z-10">
@@ -41,12 +41,22 @@ export default function HomePage() {
                                     About Us
                                 </a>
                             </div>
-                            <a
+                            {
+                                props?.id ? 
+                                <a
+                                href="/dashboard"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 transform hover:scale-105"
+                            >
+                                Dashboard
+                            </a>
+                                : 
+                                <a
                                 href="/login"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 transform hover:scale-105"
                             >
                                 Login <i class="fas fa-sign-in-alt ml-1"></i>
                             </a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -375,6 +385,12 @@ export default function HomePage() {
     );
 }
 
-consoleSilencer();
+//consoleSilencer();
 
-createRoot(document.getElementById("root")).render(<HomePage />);
+const root = document.getElementById("root");
+
+HomePage.defaultProps = {
+    ...JSON.parse(root.getAttribute("data")),
+};
+
+createRoot(root).render(<HomePage />);

@@ -172,18 +172,6 @@ p {
     margin-top: 5px;
 }
 
-.card {
-    max-width: 620px;
-    margin: 0 auto;
-    padding: 16px;
-    border: 1px solid lightgray;
-    border-radius: 16px;
-}
-
-.card p:last-child {
-    margin-bottom: 0;
-}
-
 .hero-bg {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
         url("https://reports.ieraafrica.org/img/interview.png");
